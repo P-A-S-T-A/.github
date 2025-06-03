@@ -14,59 +14,57 @@ The core components include:
 The project aims to maximize mission effectiveness while handling critical constraints such as battery life, task deadlines, and vehicle-specific capabilities.
 
 ## State 
-
-`
+```json
 {
-	score,
-	timestamp
+	"score": null,
+	"timestamp": null,
 	// UAV
-	uav: {
-		subzone,
-		current_task: {
-			type,
-			start_time,
-			deadline,
-			max_value,
-			preemptive // bool value 
+	"uav": {
+		"subzone": null,
+		"current_task": {
+			"type": null,
+			"start_time": null,
+			"deadline": null,
+			"max_value": null,
+			"preemptive": null // bool value
 		},
-		aruco: [{
-			id, 
-			zone,
+		"aruco": [{
+			"id": null,
+			"zone": null
 			// optional position
 		}], // list of aruco object discovered
-		object: [{
-			type, 
-			zone,
+		"object": [{
+			"type": null,
+			"zone": null
 			// optional position
 		}],
-		battery,
-		explored_subzones: []
+		"battery": null,
+		"explored_subzones": []
 	},
-	ugv: {
-		subzone,
-		current_task: {
-			type,
-			start_time,
-			deadline,
-			max_value,
-			preemptive // bool value 
+	"ugv": {
+		"subzone": null,
+		"current_task": {
+			"type": null,
+			"start_time": null,
+			"deadline": null,
+			"max_value": null,
+			"preemptive": null // bool value
 		},
-		aruco: [{
-			id, 
-			zone,
+		"aruco": [{
+			"id": null,
+			"zone": null
 			// optional position
 		}],
-		object: [{
-			type, 
-			zone,
+		"object": [{
+			"type": null,
+			"zone": null
 			// optional position
-		}],,
-		battery,
-		explored_subzones: []
+		}],
+		"battery": null,
+		"explored_subzones": []
 	}
 }
-`
-
+```
 ## Tasks
 
 ### Constraints
