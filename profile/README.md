@@ -1,1 +1,1 @@
-# P.A.S.T.A. Planning Algorithm for Strategic Task Allocation
+# P.A.S.T.A. - Planning Algorithm for Strategic Task Allocation
