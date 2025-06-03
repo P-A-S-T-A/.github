@@ -18,7 +18,6 @@ The project aims to maximize mission effectiveness while handling critical const
 {
 	"score": null,
 	"timestamp": null,
-	// UAV
 	"uav": {
 		"subzone": null,
 		"current_task": {
@@ -26,17 +25,15 @@ The project aims to maximize mission effectiveness while handling critical const
 			"start_time": null,
 			"deadline": null,
 			"max_value": null,
-			"preemptive": null // bool value
+			"preemptive": null 
 		},
 		"aruco": [{
 			"id": null,
 			"zone": null
-			// optional position
-		}], // list of aruco object discovered
+		}], 
 		"object": [{
 			"type": null,
 			"zone": null
-			// optional position
 		}],
 		"battery": null,
 		"explored_subzones": []
@@ -48,17 +45,15 @@ The project aims to maximize mission effectiveness while handling critical const
 			"start_time": null,
 			"deadline": null,
 			"max_value": null,
-			"preemptive": null // bool value
+			"preemptive": null 
 		},
 		"aruco": [{
 			"id": null,
 			"zone": null
-			// optional position
 		}],
 		"object": [{
 			"type": null,
 			"zone": null
-			// optional position
 		}],
 		"battery": null,
 		"explored_subzones": []
