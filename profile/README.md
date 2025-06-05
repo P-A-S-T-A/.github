@@ -191,13 +191,13 @@ The project aims to maximize mission effectiveness while handling critical const
             "format": "date-time"
         },
         "zones":{
-			"type": "array",
-				"x": {
-					"type": "int"
-				},
-				"y": {
-					"type": "int"
-				}
+		"type": "array",
+			"x": {
+				"type": "int"
+			},
+			"y": {
+				"type": "int"
+			}
 		},
         "max_value": {
             "type": "int"
@@ -442,40 +442,40 @@ When an object/target has been found, it will be removed from the heatmap.
 ### **Path planner**
 
 Returns two path.
-It is an $A^\star$ computed on the occupancy grid with distances weighted on:
+It is an `A^\star` computed on the occupancy grid with distances weighted on:
 
 - **heatmap**
 - **coverage map**
 
 For each path it returns:
 
-- **Manhattan Distance [$d_m$](https://www.notion.so/EIS-Project-1b5ec7177fc9806a98f9c9dc60c59566?pvs=21)**
+- **Manhattan Distance [`d_m`](https://www.notion.so/EIS-Project-1b5ec7177fc9806a98f9c9dc60c59566?pvs=21)**
 - `explored_subzones`
 - `subzone`
 
 ### Distance calculation
 
-$$
+```math
 \text{Heatmap}\\
 \begin{aligned}
 & \text{H}_m \ \in [0, 1] \\
 & d_H=(1-\text{H}_m)+\omega_d
 \end{aligned}
-$$
+```
 
-$$
+```math
 \text{Coverage map}\\
 \begin{aligned}
 & \text{C}_m \ \in [0, 1] \\
 & d_c=(1-\text{C}_m)+\omega_d
 \end{aligned}
-$$
+```
 
 Where $\omega_d$ is the weight of the distance over the secondary objective and it is defined as follow:
 
-- $\omega_d=1$ means that it weights more half the distance and alf the secondary objective
-- $\omega_d=0$ means that it weights just the object
-- $\omega_d>>1$ means that it weights only to optimize the distance
+- `\omega_d=1` means that it weights more half the distance and alf the secondary objective
+- `\omega_d=0` means that it weights just the object
+- `\omega_d>>1` means that it weights only to optimize the distance
 
 ## Reward
 
@@ -483,34 +483,34 @@ One of the rewards’ element is weighted on the explored area for the given act
 The explored areas are compared with the object/target’s heatmap in order to compute the action that covers the hottest zones.
 ⇒ This is handled by the planner
 
-$$
+```math
 R = p_s\cdot s_e\cdot\left(1-\Delta b\right)^{\frac1{\omega_b}}\cdot\left(1-r_{t}\right)^{\frac1{\omega_r}}\cdot\omega_s
-$$
+```
 
-### Success probability function $p_s$
+### Success probability function `p_s`
 
-**Task parameters $T$**
+**Task parameters `T`**
 
-- **Complexity coefficient $C \ [\text{\%}]$**
+- **Complexity coefficient `C \ [\text{\%}]`**
     - `complexity`
-        - **JSON** → Values in $\left[0, 100\right]$
-        - **Engine** → Values in $\left[0, 1\right]$
-- **Duration coefficients $t_n \ [\text{s}]$**
+        - **JSON** → Values in `\left[0, 100\right]`
+        - **Engine** → Values in `\left[0, 1\right]`
+- **Duration coefficients `t_n \ [\text{s}]`**
     - `nominal_duration`
 
 **Runtime parameters $R$**
 
-- **Distance $d_m \ [\text{m}]$**
+- **Distance `d_m \ [\text{m}]`**
 Distance between the current subzone and the target one.
     - Manhattan Distance
-- **Remaining time $t_d \ [\text{s}]$**
+- **Remaining time `t_d \ [\text{s}]`**
     - Deadline for the task
 
-**Agent parameters $A$**
+**Agent parameters `A`**
 
-- **Average speed $v_a\ [\text{ms}^{-1}]$**
+- **Average speed `v_a\ [\text{ms}^{-1}]`**
 
-$$
+```math
 \begin{aligned}
 & t_{\text{tot}} = \frac{d_m}{v_a} + t_n \\
 & K(x) = \begin{cases}
@@ -523,57 +523,56 @@ $$
 & p_s=p(s|A,R,T)=(1-C) \cdot K\left(\frac{t_d}{t_{\text{tot}}}\right)
 
 \end{aligned}
-$$
+```
 
 ![$*K(x)$ function*](decision_curve.png)
-*$K(x)$ function*
+*`K(x)` function*
 
 The last equation highlights the principle that the probability is the highest one when the complexity $C$ is low, i.e. the probability is $1$ when the complexity is $0$ and the remaining time is twice the total time.
 
-It also updates the `timestamp` for the next state using $t_{\text{tot}}$.
+It also updates the `timestamp` for the next state using `t_{\text{tot}}`.
 
-### Expected score $s_e$
+### Expected score `s_e`
 
-Depends on the `max_value`, `deadline`, $t_{\text{tot}}$.
+Depends on the `max_value`, `deadline`, `t_{\text{tot}}`.
 
 **Continue action will use a coherence coefficient.** 
 
-### Battery $\Delta b$
+### Battery `\Delta b`
 
 Battery consumption (consumption model needs to be defined) for completing the task.
 
-### Total time $t_{f}$
+### Total time `t_{f}`
 
 When two actions lead to the same score, it will choose the one that requires less time.
-This is factorized wrt to the mission total time $t_M$.
+This is factorized wrt to the mission total time `t_M`.
 
-$$
+```math
 r_{t}=\frac{t_{tot}}{t_M}
-$$
+```
 
 ### Weights
 
 - **Semantic**
     
-    $$
+    ```math
     \omega_s \in [0,1]
-    $$
+    ```
     
     By default it is $1$.
     For specific tasks it varies.
     
 - **Battery**
     
-    $$
+    ```math
     \omega_b \in \real
-    $$
+    ```
+
     
-    If $\omega_b > 1$, the battery will weight more on the computation. 
+    If `\omega_b > 1`, the battery will weight more on the computation. 
     
 - **Time factor**
     
-    $$
-    \omega_r\in \real
-    $$
+    $$\omega_r\in \real$$
     
-    If $\omega_s > 1$, the time factor will weight more on the computation.
+    If `\omega_s > 1`, the time factor will weight more on the computation.
